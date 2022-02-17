@@ -9,7 +9,7 @@ import traitlets
 class CSICamera(Camera):
     
     capture_device = traitlets.Integer(default_value=0)
-    capture_fps = traitlets.Integer(default_value=30)
+    capture_fps = traitlets.Integer(default_value=10)
     capture_width = traitlets.Integer(default_value=640)
     capture_height = traitlets.Integer(default_value=480)
     
@@ -29,8 +29,11 @@ class CSICamera(Camera):
         atexit.register(self.cap.release)
                 
     def _gst_str(self):
-        return 'nvarguscamerasrc sensor-id=%d ! video/x-raw(memory:NVMM), width=%d, height=%d, format=(string)NV12, framerate=(fraction)%d/1 ! nvvidconv ! video/x-raw, width=(int)%d, height=(int)%d, format=(string)BGRx ! videoconvert ! appsink' % (
-                self.capture_device, self.capture_width, self.capture_height, self.capture_fps, self.width, self.height)
+        return f"""
+        nvarguscamerasrc sensor-id={self.capture_device} ! 
+        video/x-raw(memory:NVMM), width={self.capture_width}, height={self.capture_height}, format=(string)NV12, framerate=(fraction){self.capture_fps}/1 ! 
+        nvvidconv ! video/x-raw, width=(int){self.width}, height=(int){self.heigh}, format=(string)I420 ! nvjpegenc ! appsink
+        """
     
     def _read(self):
         re, image = self.cap.read()
