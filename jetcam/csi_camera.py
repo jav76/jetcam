@@ -37,7 +37,7 @@ class CSICamera(Camera):
         nvarguscamerasrc sensor-id={self.capture_device} ! 
         video/x-raw(memory:NVMM), width={self.capture_width}, height={self.capture_height}, 
         format=(string)NV12, framerate=(fraction){self.capture_fps}/1 ! 
-        nvvidconv ! video/x-raw, width=(int){self.width}, height=(int){self.heigh}, 
+        nvvidconv ! video/x-raw, width=(int){self.width}, height=(int){self.height}, 
         format=(string)I420 ! nvjpegenc ! appsink
         """
     
