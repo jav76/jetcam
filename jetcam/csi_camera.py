@@ -12,7 +12,7 @@ class CSICamera(Camera):
     capture_fps = traitlets.Integer(default_value=10)
     capture_width = traitlets.Integer(default_value=640)
     capture_height = traitlets.Integer(default_value=480)
-    custom_args = traitlets.String(default_value="None")
+    custom_args = traitlets.Unicode(default_value="None")
     
     def __init__(self, *args, **kwargs):
         super(CSICamera, self).__init__(*args, **kwargs)
