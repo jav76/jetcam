@@ -48,6 +48,8 @@ class Camera(traitlets.HasTraits):
     def _cleanup(self):
         print("Cleaning up camera")
         self._running = False
-        self.thread.join()
-        self._cap.release()
+        print("Stopping camera thread...")
+        self.thread.join(timeout=2)
+        self.cap.release()
         print("Camera released")
+        return 0
