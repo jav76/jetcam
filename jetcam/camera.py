@@ -44,3 +44,10 @@ class Camera(traitlets.HasTraits):
             # transition from running -> not running
             self._running = False
             self.thread.join()
+
+    def _cleanup(self):
+        print("Cleaning up camera")
+        self._running = False
+        self.thread.join()
+        self._cap.release()
+        print("Camera released")
